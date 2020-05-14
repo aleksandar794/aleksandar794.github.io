@@ -492,3 +492,8 @@ transition        : all .2s ease-in-out;
         display: none;
     }
 }
+@media(max-width : 500px){
+    .section-b-inner h3{
+        padding: 0%;
+    }
+}
