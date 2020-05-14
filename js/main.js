@@ -210,6 +210,7 @@ function WidthChange(mq) {
         left.style.display = 'block';
         right.style.display = 'block';
         toBe.style.display = 'block';
+        toBe.style.position = 'sticky'
         toBe.style.width = 'auto';
         close.classList.remove("fa-3x");
         close.classList.add("fa-5x");
