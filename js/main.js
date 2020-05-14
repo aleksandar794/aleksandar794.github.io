@@ -137,9 +137,7 @@ light.addEventListener("click", (e) => { if (e.target.className == "pic") { hide
 
 close.addEventListener("click", hide);
 
-/*window.onresize = () => {
-
-    /*Media query*/
+/*Media query*/
 if (matchMedia) {
     const mq = window.matchMedia("(max-width: 1366px)");
     mq.addListener(WidthChange);
