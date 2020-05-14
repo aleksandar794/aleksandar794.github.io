@@ -139,7 +139,7 @@ close.addEventListener("click", hide);
 
 /*Media query*/
 if (matchMedia) {
-    const mq = window.matchMedia("(max-width: 1366px)");
+    const mq = window.matchMedia("(max-width: 730px)");
     mq.addListener(WidthChange);
     WidthChange(mq);
 }
