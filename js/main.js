@@ -162,6 +162,7 @@ function WidthChange(mq) {
         toBe.style.width = '300px';
         toBe.style.display = 'none';
         light.style.overflow = 'scroll';
+
         //touchstart
         let isMoving = true;
         let isScrolling = false;
