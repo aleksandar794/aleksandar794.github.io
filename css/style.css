@@ -428,9 +428,9 @@ transition        : all .2s ease-in-out;
     background-color: var(--overlay-color);
 }
 
-/*Medi queries*/
+/*Media queries*/
 
-@media(max-width : 700px){
+@media(max-width : 830px){
     .section-a {
         margin-bottom: 10px;
     }
@@ -491,9 +491,29 @@ transition        : all .2s ease-in-out;
     .section-footer div:nth-child(2),.section-footer div:nth-child(3){
         display: none;
     }
+
+    .arrow-left
+    {
+        display: none;
+    }
+    .arrow-right {
+        display: none;
+    }
+
+    .seen {
+        height: 340px;
+        margin-top: 4rem;
+        padding: 1rem
+    }
+    .to-be{
+        display: none;
+    }
+    .lightbox{
+        overflow: scroll;
+    }
 }
-@media(max-width : 300px){
-    .section-b-inner h3{
+@media(max-width : 400px){
+    .section-b-inner{
         padding: 0%;
     }
 }

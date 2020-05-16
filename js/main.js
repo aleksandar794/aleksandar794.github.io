@@ -41,42 +41,32 @@ function hide() {
     document.documentElement.style.overflow = "auto";
 }
 
-//previous picture
-function previousPic() {
-    let a = document.querySelector('.chosen');
-    let b = document.getElementById(a.id);
-    let c = Number(b.id) - 1;
-    if (c < 0) {
-        c = pics.length;
+//pic control
+
+function changePic(string) {
+    let currentPic = document.querySelector('.chosen');
+    let currentPicId = document.getElementById(currentPic.id);
+    let desiredPicId
+    if (string === "next") {
+        desiredPicId = Number(currentPicId.id) + 1
+        if (desiredPicId > pics.length) {
+            desiredPicId = 0
+        }
+    } else {
+        desiredPicId = Number(currentPicId.id) - 1
+        if (desiredPicId < 0) {
+            desiredPicId = pics.length;
+        }
     }
-    let d = document.getElementById(c)
-    a.classList.add("lightbox-pic");
-    toBe.appendChild(a);
-    a.classList.remove("chosen");
-    d.className = "chosen";
-    seen.appendChild(d);
+    let desiredPic = document.getElementById(desiredPicId)
+    currentPic.classList.add("lightbox-pic");
+    toBe.appendChild(currentPic);
+    currentPic.classList.remove("chosen");
+    desiredPic.className = "chosen";
+    seen.appendChild(desiredPic);
     gallery.focus();
 
 }
-
-//next picture
-function nextPic() {
-    let a = document.querySelector('.chosen');
-    let b = document.getElementById(a.id);
-    let c = Number(b.id) + 1;
-    if (c > pics.length) {
-        c = 0
-    }
-    let d = document.getElementById(c)
-    a.classList.add("lightbox-pic");
-    toBe.appendChild(a);
-    a.classList.remove("chosen");
-    d.className = "chosen";
-    seen.appendChild(d);
-    gallery.focus();
-
-}
-
 //keyboard control
 
 function keyFun(e) {
@@ -84,23 +74,16 @@ function keyFun(e) {
 
     if (e.keyCode == '37') {
         // left arrow
-        previousPic();
+        changePic("previous");
     }
     else if (e.keyCode == '39') {
         // right arrow
-        nextPic();
+        changePic("next");
     } else if (e.keyCode == '27') {
         //escape
         hide();
     }
 }
-
-//button left
-left.addEventListener("click", previousPic);
-
-//button right
-right.addEventListener("click", nextPic);
-
 //keyboard control
 gallery.addEventListener("keydown", keyFun);
 //open lightbox and show the chosen pic from gallery
@@ -121,6 +104,11 @@ gallery.addEventListener("click", (e) => {
     }
 });
 
+//left button
+left.addEventListener("click", () => { changePic("previous") });
+//right button
+right.addEventListener("click", () => { changePic("next") });
+
 //lightbox small pics
 toBe.addEventListener("click", (e) => {
     document.querySelector('.chosen').classList.add("lightbox-pic");
@@ -132,14 +120,14 @@ toBe.addEventListener("click", (e) => {
 
 
 });
-
+//hide lightbox if clicked on empty space
 light.addEventListener("click", (e) => { if (e.target.className == "pic") { hide(); } })
-
+//close button
 close.addEventListener("click", hide);
 
-/*Media query*/
+//media query
 if (matchMedia) {
-    const mq = window.matchMedia("(max-width: 730px)");
+    const mq = window.matchMedia("(max-width: 830px)");
     mq.addListener(WidthChange);
     WidthChange(mq);
 }
@@ -150,24 +138,12 @@ function WidthChange(mq) {
     if (mq.matches) {
         close.classList.remove("fa-7x");
         close.classList.add("fa-3x");
-        left.style.display = 'none';
-        right.style.display = 'none';
-        left.style.top = '55%';
-        right.style.top = '55%';
-        left.style.left = '0';
-        right.style.right = '0';
-        seen.style.height = '340px';
-        seen.style.marginTop = '4rem';
-        seen.style.padding = '1rem';
-        toBe.style.width = '300px';
-        toBe.style.display = 'none';
-        light.style.overflow = 'scroll';
 
         //touchstart
         let isMoving = true;
         let isScrolling = false;
-        let d = 0;
-        let f = 0;
+        let touchStartClientX = 0;
+        let toutchMoveClientX = 0;
         light.onscroll = (e) => {
             isMoving = false;
             isScrolling = true;
@@ -180,42 +156,33 @@ function WidthChange(mq) {
 
         pic.addEventListener("touchstart", (e) => {
             if (isScrolling != true) {
-                d = e.changedTouches[0].clientX;
+                touchStartClientX = e.changedTouches[0].clientX;
             }
         })
         pic.addEventListener("touchmove", (e) => {
             if (isMoving === true && e.target.localName == "img" && isScrolling === false) {
-                f = e.changedTouches[0].clientX;
+                toutchMoveClientX = e.changedTouches[0].clientX;
             }
         })
         pic.addEventListener("touchend", (e) => {
             if (isScrolling === false) {
                 e.preventDefault();
-                if (f > d) {
-                    previousPic();
+                if (toutchMoveClientX > touchStartClientX) {
+                    changePic("previous");
                     isMoving = false;
                 }
-                if (f < d) {
-                    nextPic();
+                if (toutchMoveClientX < touchStartClientX) {
+                    changePic("next");
                     isMoving = false;
                 }
-                if (f == 0) {
+                if (toutchMoveClientX == 0) {
                     hide();
                 }
-                d = 0;
-                f = 0;
+                touchStartClientX = 0;
+                toutchMoveClientX = 0;
             }
         })
 
-    } else {
-        left.style.display = 'block';
-        right.style.display = 'block';
-        toBe.style.display = 'block';
-        toBe.style.position = 'sticky'
-        toBe.style.width = 'auto';
-        close.classList.remove("fa-3x");
-        close.classList.add("fa-5x");
-        light.style.overflow = 'none';
     }
 
 }
